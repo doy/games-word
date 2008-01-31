@@ -2,12 +2,45 @@
 package Games::Word;
 require Exporter;
 @ISA = qw/Exporter/;
-@EXPORT_OK = qw/random_permutation is_permutation/;
+@EXPORT_OK = qw/random_word is_word set_word_list
+                random_permutation is_permutation/;
 
 use strict;
 use warnings;
 use Math::Combinatorics qw/factorial/;
 use Test::Deep::NoTest;
+
+my $word_list = '';
+
+sub set_word_list {
+    $word_list = shift;
+}
+
+sub random_word {
+    my $word;
+
+    open my $fh, '<', $word_list
+        or die "Couldn't open word list: $word_list";
+    while (<$fh>) {
+        chomp;
+        $word = $_ if int(rand($.)) == 0;
+    }
+
+    return $word;
+}
+
+sub is_word {
+    my $word = shift;
+
+    open my $fh, '<', $word_list
+        or die "Couldn't open word list: $word_list";
+    while (<$fh>) {
+        chomp;
+        return 1 if $_ eq $word;
+    }
+
+    return 0;
+}
 
 sub random_permutation {
     my $word = shift;

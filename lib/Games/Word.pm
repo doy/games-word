@@ -31,6 +31,7 @@ sub set_word_list {
     }
     else {
         $cache = 0;
+        %words = @words = ();
     }
 
 }

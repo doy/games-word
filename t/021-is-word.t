@@ -9,8 +9,8 @@ my $word_file = '';
 $word_file = '/usr/dict/words' if (-f '/usr/dict/words');
 $word_file = '/usr/share/dict/words' if (-f '/usr/share/dict/words');
 
-throws_ok(sub { is_word }, qr/Couldn't open word list/,
-          "testing calling a function before setting a word list");
+lives_ok(sub { is_word "blah" },
+         "testing calling a function before setting a word list");
 
 SKIP: {
     skip "Can't find a system word list", 2 if $word_file eq '';

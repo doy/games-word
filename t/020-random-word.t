@@ -9,7 +9,7 @@ my $word_file = '';
 $word_file = '/usr/dict/words' if (-f '/usr/dict/words');
 $word_file = '/usr/share/dict/words' if (-f '/usr/share/dict/words');
 
-throws_ok(sub { random_word }, qr/Couldn't open word list/,
+throws_ok(sub { random_word }, qr/No words in word list/,
           "testing calling a function before setting a word list");
 
 SKIP: {

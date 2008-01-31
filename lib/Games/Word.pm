@@ -21,9 +21,9 @@ sub random_word {
 
     open my $fh, '<', $word_list or die "Opening $word_list failed";
     while (<$fh>) {
-        chomp;
         $word = $_ if int(rand($.)) == 0;
     }
+    chomp $word;
 
     return $word;
 }

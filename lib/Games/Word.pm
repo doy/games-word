@@ -2,83 +2,12 @@
 package Games::Word;
 require Exporter;
 @ISA = qw/Exporter/;
-@EXPORT_OK = qw/random_word is_word set_word_list
-                random_permutation is_permutation/;
+@EXPORT_OK = qw/random_permutation is_permutation/;
 
 use strict;
 use warnings;
 use Math::Combinatorics qw/factorial/;
 use Test::Deep::NoTest;
-
-my $word_list = '';
-my $cache = 1;
-my %words = ();
-my @words = ();
-
-sub set_word_list {
-    $word_list = shift;
-    die "Can't read word list: $word_list" unless -r $word_list;
-    die "Empty word list: $word_list" unless -s $word_list;
-    my %args = (cache => 1, @_);
-    if ($args{cache}) {
-        open my $fh, $word_list or die "Opening $word_list failed";
-        for (<$fh>) {
-            chomp;
-            $words{$_} = 1;
-        }
-        @words = keys %words;
-        $cache = 1;
-    }
-    else {
-        $cache = 0;
-        %words = @words = ();
-    }
-
-}
-
-sub _random_word_cache {
-    die "No words in word list" unless keys %words;
-    return $words[int(rand(@words))];
-}
-
-sub _random_word_nocache {
-    my $word;
-
-    open my $fh, '<', $word_list or die "Opening $word_list failed";
-    while (<$fh>) {
-        $word = $_ if int(rand($.)) == 0;
-    }
-    chomp $word;
-
-    return $word;
-}
-
-sub random_word {
-    return _random_word_cache if $cache;
-    return _random_word_nocache;
-}
-
-sub _is_word_cache {
-    return $words{$_[0]};
-}
-
-sub _is_word_nocache {
-    my $word = shift;
-
-    open my $fh, '<', $word_list
-        or die "Couldn't open word list: $word_list";
-    while (<$fh>) {
-        chomp;
-        return 1 if $_ eq $word;
-    }
-
-    return 0;
-}
-
-sub is_word {
-    return _is_word_cache(@_) if $cache;
-    return _is_word_nocache(@_);
-}
 
 sub random_permutation {
     my $word = shift;

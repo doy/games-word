@@ -19,8 +19,7 @@ sub set_word_list {
 sub random_word {
     my $word;
 
-    open my $fh, '<', $word_list
-        or die "Couldn't open word list: $word_list";
+    open my $fh, '<', $word_list or die "Opening $word_list failed";
     while (<$fh>) {
         chomp;
         $word = $_ if int(rand($.)) == 0;

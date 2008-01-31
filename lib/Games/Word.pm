@@ -2,8 +2,35 @@
 package Games::Word;
 use strict;
 use warnings;
+use Math::Combinatorics qw/factorial/;
+use Test::Deep::NoTest;
 
+sub random_permutation {
+    my $word = shift;
+    return '' if $word eq '';
 
+    use integer;
+    my $len = length $word;
+    my $perm_index = shift;
+    $perm_index = defined($perm_index) ? $perm_index :
+                                         int(rand(factorial($len)));
+    die "invalid permutation index" if $perm_index >= factorial($len) ||
+                                       $perm_index < 0;
+    my $current_index = $perm_index / factorial($len - 1);
+    my $rest = $perm_index % factorial($len - 1);
+
+    my $first_letter = substr($word, $current_index, 1);
+    substr($word, $current_index, 1) = '';
+
+    return $first_letter . random_permutation($word, $rest);
+}
+
+sub is_permutation {
+    my @word_letters = split //, shift;
+    my @perm_letters = split //, shift;
+
+    return eq_deeply(\@word_letters, bag(@perm_letters));
+}
 
 =head1 NAME
 

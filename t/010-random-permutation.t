@@ -2,7 +2,6 @@
 use strict;
 use warnings;
 use Test::More;
-use List::Util 'sum';
 use Games::Word qw/random_permutation/;
 
 my %blah_permutations = (

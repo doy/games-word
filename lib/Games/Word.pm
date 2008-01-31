@@ -1,5 +1,9 @@
 #!perl
 package Games::Word;
+require Exporter;
+@ISA = qw/Exporter/;
+@EXPORT_OK = qw/random_permutation is_permutation/;
+
 use strict;
 use warnings;
 use Math::Combinatorics qw/factorial/;

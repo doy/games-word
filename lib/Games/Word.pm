@@ -2,7 +2,7 @@
 package Games::Word;
 require Exporter;
 @ISA = qw/Exporter/;
-@EXPORT_OK = qw/random_permutation is_permutation/;
+@EXPORT_OK = qw/random_permutation is_permutation all_permutations/;
 
 use strict;
 use warnings;
@@ -34,6 +34,14 @@ sub is_permutation {
     my @perm_letters = split //, shift;
 
     return eq_deeply(\@word_letters, bag(@perm_letters));
+}
+
+sub all_permutations {
+    my $word = shift;
+    my @ret = ();
+    push @ret, random_permutation($word, $_)
+        for (0..(factorial(length($word)) - 1));
+    return @ret;
 }
 
 =head1 NAME

@@ -8,9 +8,6 @@ use List::MoreUtils qw/uniq/;
 sub new {
     my $class = shift;
     my $word_list = shift;
-    die "Can't read word list: $word_list" unless -r $word_list;
-    die "Empty word list: $word_list" unless -s $word_list;
-
     my $self = {
         cache => 1,
         @_,
@@ -19,13 +16,24 @@ sub new {
         word_list => [],
         word_hash => {},
     };
-    if ($self->{cache}) {
-        open my $fh, $word_list or die "Opening $word_list failed";
-        for (<$fh>) {
-            chomp;
-            $self->{word_hash}{$_} = 1;
+
+    if (ref($word_list) eq 'ARRAY') {
+        $self->{cache} = 1;
+        $self->{file} = '';
+        $self->{word_list} = $word_list;
+        $self->{word_hash}{$_} = 1 for @$word_list;
+    }
+    else {
+        die "Can't read word list: $word_list" unless -r $word_list;
+        die "Empty word list: $word_list" unless -s $word_list;
+        if ($self->{cache}) {
+            open my $fh, $word_list or die "Opening $word_list failed";
+            for (<$fh>) {
+                chomp;
+                $self->{word_hash}{$_} = 1;
+            }
+            $self->{word_list} = [keys %{ $self->{word_hash} }];
         }
-        $self->{word_list} = [keys %{ $self->{word_hash} }];
     }
 
     bless $self, $class;

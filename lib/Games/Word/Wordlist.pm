@@ -114,6 +114,14 @@ sub anagrams {
     return uniq grep { $self->is_word($_) } all_permutations($word);
 }
 
+sub words_like {
+    my $self = shift;
+    my $re = shift;
+    my @words = ();
+    $self->_each_word(sub { push @words, $_[0] if $_[0] =~ $re });
+    return @words;
+}
+
 =head1 NAME
 
 Games::Word::Wordlist - ???

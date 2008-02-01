@@ -40,6 +40,40 @@ sub new {
     return $self;
 }
 
+sub add_words {
+    my $self = shift;
+    my $word_list = shift;
+
+    die "Can't add words to a non-cached word list"
+        unless $self->{cache};
+    if (ref($word_list) eq 'ARRAY') {
+        for (@$word_list) {
+            $self->{word_hash}{$_} = 1;
+        }
+    }
+    else {
+        open my $fh, '<', $word_list or die "Opening $word_list failed";
+        for (<$fh>) {
+            $self->{word_hash}{$_} = 1;
+        }
+    }
+    $self->{word_list} = [keys %{$self->{word_hash}}];
+}
+
+sub remove_words {
+    my $self = shift;
+    for (@_) {
+        delete $self->{word_hash}{$_};
+    }
+    $self->{word_list} = [keys %{$self->{word_hash}}];
+}
+
+sub words {
+    my $self = shift;
+    return unless $self->{cache};
+    return @{$self->{word_list}};
+}
+
 sub _random_word_cache {
     my $self = shift;
     my @word_list = @{ $self->{word_list} };

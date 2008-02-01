@@ -2,6 +2,8 @@
 package Games::Word::Wordlist;
 use strict;
 use warnings;
+use Games::Word qw/all_permutations/;
+use List::MoreUtils qw/uniq/;
 
 sub new {
     my $class = shift;
@@ -103,6 +105,13 @@ sub _each_word {
     my $self = shift;
     return $self->_each_word_cache(@_) if $self->{cache};
     return $self->_each_word_nocache(@_);
+}
+
+sub anagrams {
+    my $self = shift;
+    my $word = shift;
+
+    return uniq grep { $self->is_word($_) } all_permutations($word);
 }
 
 =head1 NAME

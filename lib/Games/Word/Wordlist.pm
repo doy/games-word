@@ -81,6 +81,30 @@ sub is_word {
     return $self->_is_word_nocache(@_);
 }
 
+sub _each_word_cache {
+    my $self = shift;
+    my $code = shift;
+    &$code($_) for @{ $self->{word_list} };
+}
+
+sub _each_word_nocache {
+    my $self = shift;
+    my $code = shift;
+
+    open my $fh, '<', $self->{file}
+        or die "Couldn't open word list: $self->{file}";
+    while (<$fh>) {
+        chomp;
+        &$code($_);
+    }
+}
+
+sub _each_word {
+    my $self = shift;
+    return $self->_each_word_cache(@_) if $self->{cache};
+    return $self->_each_word_nocache(@_);
+}
+
 =head1 NAME
 
 Games::Word::Wordlist - ???

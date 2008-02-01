@@ -11,13 +11,15 @@ use Test::Deep::NoTest;
 
 sub random_permutation {
     my $word = shift;
+    my $perm_index = shift;
+
     return '' if $word eq '';
 
     use integer;
+
     my $len = length $word;
-    my $perm_index = shift;
     $perm_index = defined($perm_index) ? $perm_index :
-                                         int(rand(factorial($len)));
+                                         int rand factorial $len;
     die "invalid permutation index" if $perm_index >= factorial($len) ||
                                        $perm_index < 0;
     my $current_index = $perm_index / factorial($len - 1);
@@ -38,9 +40,11 @@ sub is_permutation {
 
 sub all_permutations {
     my $word = shift;
+
     my @ret = ();
     push @ret, random_permutation($word, $_)
-        for (0..(factorial(length($word)) - 1));
+        for 0..(factorial(length $word) - 1);
+
     return @ret;
 }
 

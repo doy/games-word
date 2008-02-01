@@ -32,7 +32,7 @@ sub new {
                 chomp;
                 $self->{word_hash}{$_} = 1;
             }
-            $self->{word_list} = [keys %{ $self->{word_hash} }];
+            $self->{word_list} = [keys %{$self->{word_hash}}];
         }
     }
 
@@ -46,48 +46,47 @@ sub add_words {
 
     die "Can't add words to a non-cached word list"
         unless $self->{cache};
+
     if (ref($word_list) eq 'ARRAY') {
-        for (@$word_list) {
-            $self->{word_hash}{$_} = 1;
-        }
+        $self->{word_hash}{$_} = 1 for @$word_list;
     }
     else {
         open my $fh, '<', $word_list or die "Opening $word_list failed";
-        for (<$fh>) {
-            $self->{word_hash}{$_} = 1;
-        }
+        $self->{word_hash}{$_} = 1 for <$fh>;
     }
     $self->{word_list} = [keys %{$self->{word_hash}}];
 }
 
 sub remove_words {
     my $self = shift;
-    for (@_) {
-        delete $self->{word_hash}{$_};
-    }
+
+    delete $self->{word_hash}{$_} for (@_);
     $self->{word_list} = [keys %{$self->{word_hash}}];
 }
 
 sub words {
     my $self = shift;
+
     return unless $self->{cache};
     return @{$self->{word_list}};
 }
 
 sub _random_word_cache {
     my $self = shift;
-    my @word_list = @{ $self->{word_list} };
+
+    my @word_list = @{$self->{word_list}};
     die "No words in word list" unless @word_list;
-    return $word_list[int(rand(@word_list))];
+
+    return $word_list[int rand @word_list];
 }
 
 sub _random_word_nocache {
     my $self = shift;
-    my $word;
 
     open my $fh, '<', $self->{file} or die "Opening $self->{file} failed";
+    my $word;
     while (<$fh>) {
-        $word = $_ if int(rand($.)) == 0;
+        $word = $_ if int(rand $.) == 0;
     }
     chomp $word;
 
@@ -96,13 +95,16 @@ sub _random_word_nocache {
 
 sub random_word {
     my $self = shift;
+
     return $self->_random_word_cache if $self->{cache};
     return $self->_random_word_nocache;
 }
 
 sub _is_word_cache {
     my $self = shift;
-    return $self->{word_hash}{$_[0]};
+    my $word = shift;
+
+    return $self->{word_hash}{$word};
 }
 
 sub _is_word_nocache {
@@ -121,6 +123,7 @@ sub _is_word_nocache {
 
 sub is_word {
     my $self = shift;
+
     return $self->_is_word_cache(@_) if $self->{cache};
     return $self->_is_word_nocache(@_);
 }
@@ -128,7 +131,8 @@ sub is_word {
 sub _each_word_cache {
     my $self = shift;
     my $code = shift;
-    &$code($_) for @{ $self->{word_list} };
+
+    &$code($_) for @{$self->{word_list}};
 }
 
 sub _each_word_nocache {
@@ -145,6 +149,7 @@ sub _each_word_nocache {
 
 sub _each_word {
     my $self = shift;
+
     return $self->_each_word_cache(@_) if $self->{cache};
     return $self->_each_word_nocache(@_);
 }
@@ -159,8 +164,10 @@ sub anagrams {
 sub words_like {
     my $self = shift;
     my $re = shift;
+
     my @words = ();
     $self->_each_word(sub { push @words, $_[0] if $_[0] =~ $re });
+
     return @words;
 }
 

@@ -75,21 +75,35 @@ sub words {
 
 sub _random_word_cache {
     my $self = shift;
+    my $length = shift;
 
-    my @word_list = @{$self->{word_list}};
-    die "No words in word list" unless @word_list;
+    my @word_list;
+    if (defined $length) {
+        @word_list = $self->words_like(qr/^\w{$length}$/);
+        die "No words in word list" unless @word_list;
+    }
+    else {
+        @word_list = @{$self->{word_list}};
+        die "No words of length $length in word list" unless @word_list;
+    }
 
     return $word_list[int rand @word_list];
 }
 
 sub _random_word_nocache {
     my $self = shift;
+    my $length = shift;
 
     open my $fh, '<', $self->{file} or die "Opening $self->{file} failed";
+    die "No words in word list" unless -s $self->{file};
     my $word;
+    my $lineno = 0;
     while (<$fh>) {
-        $word = $_ if int(rand $.) == 0;
+        next unless !defined $length || /^\w{$length}$/;
+        $lineno++;
+        $word = $_ if int(rand $lineno) == 0;
     }
+    die "No words of length $length in word list" unless defined $word;
     chomp $word;
 
     return $word;
@@ -98,8 +112,8 @@ sub _random_word_nocache {
 sub random_word {
     my $self = shift;
 
-    return $self->_random_word_cache if $self->{cache};
-    return $self->_random_word_nocache;
+    return $self->_random_word_cache(@_) if $self->{cache};
+    return $self->_random_word_nocache(@_);
 }
 
 sub _is_word_cache {

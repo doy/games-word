@@ -13,24 +13,12 @@ use Test::Deep::NoTest;
 
 sub random_permutation {
     my $word = shift;
-    my $perm_index = shift;
 
-    return '' if $word eq '';
+    return '' unless $word;
 
-    use integer;
+    my $letter = substr $word, int(rand length $word), 1, '';
 
-    my $len = length $word;
-    $perm_index = defined($perm_index) ? $perm_index :
-                                         int rand factorial $len;
-    die "invalid permutation index" if $perm_index >= factorial($len) ||
-                                       $perm_index < 0;
-    my $current_index = $perm_index / factorial($len - 1);
-    my $rest = $perm_index % factorial($len - 1);
-
-    my $first_letter = substr($word, $current_index, 1);
-    substr($word, $current_index, 1) = '';
-
-    return $first_letter . random_permutation($word, $rest);
+    return $letter . random_permutation($word);
 }
 
 sub is_permutation {
@@ -40,11 +28,32 @@ sub is_permutation {
     return eq_deeply(\@word_letters, bag(@perm_letters));
 }
 
+sub _permutation {
+    my $word = shift;
+    my $perm_index = shift;
+
+    return '' if $word eq '';
+
+    my $len = length $word;
+    die "invalid permutation index" if $perm_index >= factorial($len) ||
+                                       $perm_index < 0;
+
+    use integer;
+
+    my $current_index = $perm_index / factorial($len - 1);
+    my $rest = $perm_index % factorial($len - 1);
+
+    my $first_letter = substr($word, $current_index, 1);
+    substr($word, $current_index, 1) = '';
+
+    return $first_letter . _permutation($word, $rest);
+}
+
 sub all_permutations {
     my $word = shift;
 
     my @ret = ();
-    push @ret, random_permutation($word, $_)
+    push @ret, _permutation($word, $_)
         for 0..(factorial(length $word) - 1);
 
     return @ret;

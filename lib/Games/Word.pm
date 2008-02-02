@@ -4,7 +4,8 @@ require Exporter;
 @ISA = qw/Exporter/;
 @EXPORT_OK = qw/random_permutation is_permutation all_permutations
                 shared_letters shared_letters_by_position
-                random_string_from/;
+                random_string_from
+                is_substring all_substrings/;
 
 use strict;
 use warnings;
@@ -108,6 +109,32 @@ sub random_string_from {
     $ret .= $letters[int rand @letters] for 1..$length;
 
     return $ret;
+}
+
+sub is_substring {
+    my ($word, $substring) = @_;
+
+    return 1 unless $substring;
+    my $re = join('?', map { quotemeta } split(//, $substring)) . '?';
+    return $word =~ $re;
+}
+
+sub all_substrings {
+    my $string = shift;
+
+    return ('') unless $string;
+
+    my @substrings = ($string);
+    my $before = '';
+    my $current = substr $string, 0, 1, '';
+    while ($current) {
+        @substrings = (@substrings,
+                       map { $before . $_ } all_substrings($string));
+        $before .= $current;
+        $current = substr $string, 0, 1, '';
+    }
+
+    return @substrings;
 }
 
 =head1 NAME

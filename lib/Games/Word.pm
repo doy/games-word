@@ -2,7 +2,8 @@
 package Games::Word;
 require Exporter;
 @ISA = qw/Exporter/;
-@EXPORT_OK = qw/random_permutation is_permutation all_permutations/;
+@EXPORT_OK = qw/random_permutation is_permutation all_permutations
+                shared_letters shared_letters_by_position/;
 
 use strict;
 use warnings;
@@ -46,6 +47,45 @@ sub all_permutations {
         for 0..(factorial(length $word) - 1);
 
     return @ret;
+}
+
+sub shared_letters {
+    my @a = sort split //, shift;
+    my @b = sort split //, shift;
+
+    my @letters = ();
+    my ($a, $b) = (pop @a, pop @b);
+    while (defined $a && defined $b) {
+        if ($a eq $b) {
+            push @letters, $a;
+            ($a, $b) = (pop @a, pop @b);
+        }
+        elsif ($a lt $b) {
+            $a = pop @a;
+        }
+        else {
+            $b = pop @b;
+        }
+    }
+
+    return @letters;
+}
+
+sub shared_letters_by_position {
+    my @a = split //, shift;
+    my @b = split //, shift;
+
+    my @letters = ();
+    while (my ($a, $b) = (pop @a, pop @b)) {
+        if ($a eq $b) {
+            push @letters, $a;
+        }
+        else {
+            push @letters, undef;
+        }
+    }
+
+    return wantarray ? @letters : grep { defined } @letters;
 }
 
 =head1 NAME

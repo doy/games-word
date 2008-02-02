@@ -16,7 +16,7 @@ use Test::Deep::NoTest;
 sub random_permutation {
     my $word = shift;
 
-    return '' unless $word;
+    return '' if $word eq '';
 
     my $letter = substr $word, int(rand length $word), 1, '';
 
@@ -115,7 +115,7 @@ sub random_string_from {
 sub is_substring {
     my ($substring, $string) = @_;
 
-    return 1 unless $substring;
+    return 1 if $substring eq '';
     my $re = join('?', map { quotemeta } split(//, $string)) . '?';
     return $substring =~ $re;
 }
@@ -123,7 +123,7 @@ sub is_substring {
 sub all_substrings {
     my $string = shift;
 
-    return ('') unless $string;
+    return ('') if $string eq '';
 
     my @substrings = ($string);
     my $before = '';

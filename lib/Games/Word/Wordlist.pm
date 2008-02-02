@@ -77,8 +77,7 @@ sub new {
     }
     else {
         die "Can't read word list: $word_list" unless -r $word_list;
-        die "Empty word list: $word_list" unless -s $word_list;
-        if ($self->{cache}) {
+        if ($self->{cache} && -s $word_list) {
             open my $fh, $word_list or die "Opening $word_list failed";
             for (<$fh>) {
                 chomp;
@@ -164,11 +163,11 @@ sub _random_word_cache {
     my @word_list;
     if (defined $length) {
         @word_list = $self->words_like(qr/^\w{$length}$/);
-        die "No words in word list" unless @word_list;
+        return unless @word_list;
     }
     else {
         @word_list = @{$self->{word_list}};
-        die "No words of length $length in word list" unless @word_list;
+        return unless @word_list;
     }
 
     return $word_list[int rand @word_list];
@@ -179,7 +178,7 @@ sub _random_word_nocache {
     my $length = shift;
 
     open my $fh, '<', $self->{file} or die "Opening $self->{file} failed";
-    die "No words in word list" unless -s $self->{file};
+    return unless -s $self->{file};
     my $word;
     my $lineno = 0;
     while (<$fh>) {
@@ -187,7 +186,7 @@ sub _random_word_nocache {
         $lineno++;
         $word = $_ if int(rand $lineno) == 0;
     }
-    die "No words of length $length in word list" unless defined $word;
+    return unless defined $word;
     chomp $word;
 
     return $word;

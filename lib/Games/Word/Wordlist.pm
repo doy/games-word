@@ -2,7 +2,7 @@
 package Games::Word::Wordlist;
 use strict;
 use warnings;
-use Games::Word qw/all_permutations/;
+use Games::Word qw/all_permutations is_subpermutation/;
 use List::MoreUtils qw/uniq/;
 
 sub new {
@@ -169,6 +169,17 @@ sub words_like {
 
     my @words = ();
     $self->_each_word(sub { push @words, $_[0] if $_[0] =~ $re });
+
+    return @words;
+}
+
+sub subwords_of {
+    my $self = shift;
+    my $string = shift;
+
+    my @words = ();
+    $self->_each_word(sub { push @words, $_[0]
+                                if is_subpermutation($_[0], $string)});
 
     return @words;
 }

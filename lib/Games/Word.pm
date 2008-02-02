@@ -112,11 +112,11 @@ sub random_string_from {
 }
 
 sub is_substring {
-    my ($word, $substring) = @_;
+    my ($substring, $string) = @_;
 
     return 1 unless $substring;
-    my $re = join('?', map { quotemeta } split(//, $substring)) . '?';
-    return $word =~ $re;
+    my $re = join('?', map { quotemeta } split(//, $string)) . '?';
+    return $substring =~ $re;
 }
 
 sub all_substrings {

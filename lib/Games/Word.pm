@@ -77,6 +77,7 @@ sub shared_letters_by_position {
 
     my @letters = ();
     while (my ($a, $b) = (pop @a, pop @b)) {
+        last unless (defined $a && defined $b);
         if ($a eq $b) {
             push @letters, $a;
         }

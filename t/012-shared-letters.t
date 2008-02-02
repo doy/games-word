@@ -20,7 +20,7 @@ plan tests => 2 * @tests;
 for (@tests) {
     my %test = %$_;
     is(shared_letters($test{a}, $test{b}), $test{sl},
-       "testing shared_letters");
+       "testing shared_letters: '$test{a}' vs '$test{b}'");
     is(shared_letters_by_position($test{a}, $test{b}), $test{slbp},
-       "testing shared_letters_by_position");
+       "testing shared_letters_by_position: '$test{a}' vs '$test{b}'");
 }

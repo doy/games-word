@@ -118,6 +118,8 @@ sub add_words {
         $self->{word_hash}{$_} = 1 for <$fh>;
     }
     $self->{word_list} = [keys %{$self->{word_hash}}];
+
+    return;
 }
 
 =head2 remove_words
@@ -136,6 +138,8 @@ sub remove_words {
 
     delete $self->{word_hash}{$_} for (@_);
     $self->{word_list} = [keys %{$self->{word_hash}}];
+
+    return;
 }
 
 =head2 words
@@ -248,6 +252,8 @@ sub _each_word_cache {
     my $code = shift;
 
     &$code($_) for @{$self->{word_list}};
+
+    return;
 }
 
 sub _each_word_nocache {
@@ -260,6 +266,8 @@ sub _each_word_nocache {
         chomp;
         &$code($_);
     }
+
+    return;
 }
 
 sub _each_word {

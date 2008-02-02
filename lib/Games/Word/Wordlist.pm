@@ -131,6 +131,9 @@ Takes a list of words to remove (ignoring words that aren't in the word list).
 sub remove_words {
     my $self = shift;
 
+    die "Can't remove words from a non-cached word list"
+        unless $self->{cache};
+
     delete $self->{word_hash}{$_} for (@_);
     $self->{word_list} = [keys %{$self->{word_hash}}];
 }

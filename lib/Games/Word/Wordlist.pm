@@ -152,7 +152,7 @@ sub words {
     my $self = shift;
 
     return @{$self->{word_list}} if $self->{cache};
-    open my $fh, '<', $self->{file};
+    open my $fh, '<', $self->{file} or die "Opening $self->{file} failed";
     for (<$fh>) {}
     return $.;
 }
@@ -220,8 +220,7 @@ sub _is_word_nocache {
     my $self = shift;
     my $word = shift;
 
-    open my $fh, '<', $self->{file}
-        or die "Couldn't open word list: $self->{file}";
+    open my $fh, '<', $self->{file} or die "Opening $self->{file} failed";
     while (<$fh>) {
         chomp;
         return 1 if $_ eq $word;
@@ -260,8 +259,7 @@ sub _each_word_nocache {
     my $self = shift;
     my $code = shift;
 
-    open my $fh, '<', $self->{file}
-        or die "Couldn't open word list: $self->{file}";
+    open my $fh, '<', $self->{file} or die "Opening $self->{file} failed";
     while (<$fh>) {
         chomp;
         &$code($_);

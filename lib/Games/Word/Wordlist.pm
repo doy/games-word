@@ -67,8 +67,10 @@ sub remove_words {
 sub words {
     my $self = shift;
 
-    return unless $self->{cache};
-    return @{$self->{word_list}};
+    return @{$self->{word_list}} if $self->{cache};
+    open my $fh, '<', $self->{file};
+    for (<$fh>) {}
+    return $.;
 }
 
 sub _random_word_cache {

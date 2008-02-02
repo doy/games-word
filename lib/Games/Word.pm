@@ -5,7 +5,8 @@ require Exporter;
 @EXPORT_OK = qw/random_permutation is_permutation all_permutations
                 shared_letters shared_letters_by_position
                 random_string_from
-                is_substring all_substrings/;
+                is_substring all_substrings
+                is_subpermutation all_subpermutations/;
 
 use strict;
 use warnings;
@@ -135,6 +136,17 @@ sub all_substrings {
     }
 
     return @substrings;
+}
+
+sub is_subpermutation {
+    my @subword = split //, shift;
+    my @word = split //, shift;
+
+    return eq_deeply(\@subword, subbagof(@word));
+}
+
+sub all_subpermutations {
+    return map { all_permutations $_ } all_substrings shift;
 }
 
 =head1 NAME

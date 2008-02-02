@@ -54,17 +54,17 @@ sub shared_letters {
     my @b = sort split //, shift;
 
     my @letters = ();
-    my ($a, $b) = (pop @a, pop @b);
+    my ($a, $b) = (shift @a, shift @b);
     while (defined $a && defined $b) {
         if ($a eq $b) {
             push @letters, $a;
-            ($a, $b) = (pop @a, pop @b);
+            ($a, $b) = (shift @a, shift @b);
         }
         elsif ($a lt $b) {
-            $a = pop @a;
+            $a = shift @a;
         }
         else {
-            $b = pop @b;
+            $b = shift @b;
         }
     }
 
@@ -76,7 +76,7 @@ sub shared_letters_by_position {
     my @b = split //, shift;
 
     my @letters = ();
-    while (my ($a, $b) = (pop @a, pop @b)) {
+    while (my ($a, $b) = (shift @a, shift @b)) {
         last unless (defined $a && defined $b);
         if ($a eq $b) {
             push @letters, $a;

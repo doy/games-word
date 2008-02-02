@@ -3,7 +3,8 @@ package Games::Word;
 require Exporter;
 @ISA = qw/Exporter/;
 @EXPORT_OK = qw/random_permutation is_permutation all_permutations
-                shared_letters shared_letters_by_position/;
+                shared_letters shared_letters_by_position
+                random_string_from/;
 
 use strict;
 use warnings;
@@ -87,6 +88,17 @@ sub shared_letters_by_position {
     }
 
     return wantarray ? @letters : grep { defined } @letters;
+}
+
+sub random_string_from {
+    my ($letters, $length) = @_;
+
+    die "invalid letter list" if length $letters < 1 && $length > 0;
+    my @letters = split //, $letters;
+    my $ret = '';
+    $ret .= $letters[int rand @letters] for 1..$length;
+
+    return $ret;
 }
 
 =head1 NAME

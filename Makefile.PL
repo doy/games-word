@@ -12,6 +12,7 @@ requires       'List::MoreUtils';
 build_requires 'Test::More';
 build_requires 'Test::Exception';
 build_requires 'Test::Deep';
+build_requires 'List::Util';
 
 auto_install;
 WriteAll;

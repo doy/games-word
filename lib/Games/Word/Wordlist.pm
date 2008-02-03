@@ -36,7 +36,9 @@ randomly or by regex.
 
 =head1 CONSTRUCTOR
 
-=head2 new()
+=over 4
+
+=item new <FILENAME|ARRAYREF> PARAMHASH
 
 The constructor initializes the word list with words, either from a file or
 from an arrayref, given as the first argument. The remaining arguments are a
@@ -52,6 +54,8 @@ speeds up lookups by several orders of magnitude. Can be set to false if either
 memory is a significant issue (word lists can be several megabytes in size) or
 if the word list is expected to change frequently during the running of the
 program.
+
+=back
 
 =back
 
@@ -93,7 +97,9 @@ sub new {
 
 =head1 METHODS
 
-=head2 add_words
+=over 4
+
+=item add_words <FILENAME|ARRAYREF>
 
 Add words to the word list. Only works if the word list has been cached.
 
@@ -120,11 +126,9 @@ sub add_words {
     return;
 }
 
-=head2 remove_words
+=item remove_words LIST
 
-Removes words from the word list. Only works if the word list is cached.
-
-Takes a list of words to remove (ignoring words that aren't in the word list).
+Removes words in LIST from the word list. Only works if the word list is cached.
 
 =cut
 
@@ -139,7 +143,7 @@ sub remove_words {
     return;
 }
 
-=head2 words
+=item words
 
 Returns the number of words in the word list.
 
@@ -191,12 +195,9 @@ sub _random_word_nocache {
     return $word;
 }
 
-=head2 random_word
+=item random_word [LENGTH]
 
-Returns a random word from the word list, optionally of a specified length.
-
-Takes a single optional integer argument, which will make it only consider
-words of that length in its search.
+Returns a random word from the word list, optionally of length LENGTH.
 
 =cut
 
@@ -227,13 +228,9 @@ sub _is_word_nocache {
     return 0;
 }
 
-=head2 is_word
+=item is_word STRING
 
-Tests whether a word is in the word list.
-
-Takes a single argument, the word to be tested.
-
-Returns true if the word is found in the word list, false otherwise.
+Returns true if STRING is found in the word list, and false otherwise.
 
 =cut
 
@@ -273,14 +270,9 @@ sub _each_word {
     return $self->_each_word_nocache(@_);
 }
 
-=head2 anagrams
+=item anagrams STRING
 
-Finds all anagrams of a given string.
-
-Takes an argument of a string.
-
-Returns a list of all permutations of that string that are found in the word
-list.
+Returns a list of all permutations of STRING that are found in the word list.
 
 =cut
 
@@ -291,13 +283,9 @@ sub anagrams {
     return uniq grep { $self->is_word($_) } all_permutations($word);
 }
 
-=head2 words_like
+=item words_like REGEX
 
-Searches through the word list by regex.
-
-Takes an argument of a regex.
-
-Returns a list containing all words in the word list matching that regex.
+Returns a list containing all words in the word list which match REGEX.
 
 =cut
 
@@ -311,14 +299,10 @@ sub words_like {
     return @words;
 }
 
-=head2 subwords_of
-
-Searches for words which can be made using the letters of a given string.
-
-Takes an argument of a string.
+=item subwords_of STRING
 
 Returns a list of words from the word list which can be made using the letters
-in that string.
+in STRING.
 
 =cut
 
@@ -332,6 +316,8 @@ sub subwords_of {
 
     return @words;
 }
+
+=back
 
 =head1 SEE ALSO
 

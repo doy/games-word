@@ -1,7 +1,7 @@
 #!perl -T
 use strict;
 use warnings;
-use Test::More tests => 2;
+use Test::More tests => 20;
 use Test::Exception;
 use Games::Word::Wordlist;
 
@@ -14,8 +14,10 @@ SKIP: {
 
     my $wl = Games::Word::Wordlist->new($word_file, cache => 0);
     my $result;
-    lives_ok(sub { $result = $wl->is_word($wl->random_word) },
-             "testing calling is_word");
-    ok($result,
-       "testing checking to see if a random word from the word list is a word");
+    for (1..10) {
+        lives_ok(sub { $result = $wl->is_word($wl->random_word) },
+                 "testing calling is_word");
+        ok($result,
+           "checking to see if a random word from the word list is a word");
+    }
 }

@@ -106,8 +106,7 @@ sub add_words {
     my $self = shift;
     my $word_list = shift;
 
-    die "Can't add words to a non-cached word list"
-        unless $self->{cache};
+    die "Can't add words to a non-cached word list" unless $self->{cache};
 
     if (ref($word_list) eq 'ARRAY') {
         $self->{word_hash}{$_} = 1 for @$word_list;
@@ -132,8 +131,7 @@ Takes a list of words to remove (ignoring words that aren't in the word list).
 sub remove_words {
     my $self = shift;
 
-    die "Can't remove words from a non-cached word list"
-        unless $self->{cache};
+    die "Can't remove words from a non-cached word list" unless $self->{cache};
 
     delete $self->{word_hash}{$_} for (@_);
     $self->{word_list} = [keys %{$self->{word_hash}}];
@@ -153,6 +151,7 @@ sub words {
     return @{$self->{word_list}} if $self->{cache};
     open my $fh, '<', $self->{file} or die "Opening $self->{file} failed";
     for (<$fh>) {}
+
     return $.;
 }
 

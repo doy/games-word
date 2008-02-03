@@ -263,7 +263,14 @@ sub _each_word_nocache {
     return;
 }
 
-sub _each_word {
+=item each_word CODE
+
+Call CODE for each word in the word list. The current word will be passed into
+CODE as its only argument.
+
+=cut
+
+sub each_word {
     my $self = shift;
 
     return $self->_each_word_cache(@_) if $self->{cache};
@@ -281,7 +288,7 @@ sub anagrams {
     my $word = shift;
 
     my @words = ();
-    $self->_each_word(sub { push @words, $_[0]
+    $self->each_word(sub { push @words, $_[0]
                                 if is_permutation($word, $_[0]) });
 
     return @words;
@@ -298,7 +305,7 @@ sub words_like {
     my $re = shift;
 
     my @words = ();
-    $self->_each_word(sub { push @words, $_[0] if $_[0] =~ $re });
+    $self->each_word(sub { push @words, $_[0] if $_[0] =~ $re });
 
     return @words;
 }
@@ -315,7 +322,7 @@ sub subwords_of {
     my $string = shift;
 
     my @words = ();
-    $self->_each_word(sub { push @words, $_[0]
+    $self->each_word(sub { push @words, $_[0]
                                 if is_subpermutation($_[0], $string)});
 
     return @words;

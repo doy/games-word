@@ -13,6 +13,41 @@ use warnings;
 use Math::Combinatorics qw/factorial/;
 use Test::Deep::NoTest;
 
+=head1 NAME
+
+Games::Word - utility functions for writing word games
+
+=head1 VERSION
+
+Version 0.01 released ???
+
+=cut
+
+our $VERSION = '0.01';
+
+=head1 SYNOPSIS
+
+    use Games::Word;
+    print "permutation!\n" if is_permutation 'word', 'orwd';
+    my $mm_solution = random_string_from "abcdefgh";
+    my $mm_guess = <>;
+    chomp $mm_guess;
+    my $mm_correct_letters = shared_letters $mm_solution, $mm_guess;
+    my $mm_correct_positions = shared_letters_by_position $mm_solution,
+                                                          $mm_guess;
+
+=head1 DESCRIPTION
+
+Games::Word provides several utility functions for writing word games, such as manipulating permutations of strings, testing for similarity of strings, and finding strings from a given source of characters.
+
+=over 4
+
+=item random_permutation STRING
+
+Returns a string which is a random permutation of the letters in STRING.
+
+=cut
+
 sub random_permutation {
     my $word = shift;
 
@@ -22,6 +57,12 @@ sub random_permutation {
 
     return $letter . random_permutation($word);
 }
+
+=item is_permutation STRING1, STRING2
+
+Returns true of STRING1 is a permutation of STRING2, and false otherwise.
+
+=cut
 
 sub is_permutation {
     my @word_letters = split //, shift;
@@ -51,6 +92,12 @@ sub _permutation {
     return $first_letter . _permutation($word, $rest);
 }
 
+=item all_permutations STRING
+
+Returns a list containing all permutations of the characters in STRING.
+
+=cut
+
 sub all_permutations {
     my $word = shift;
 
@@ -60,6 +107,13 @@ sub all_permutations {
 
     return @ret;
 }
+
+=item shared_letters STRING1 STRING2
+
+Returns a list of the characters that STRING1 and STRING2 have in common,
+ignoring their position in the string.
+
+=cut
 
 sub shared_letters {
     my @a = sort split //, shift;
@@ -83,6 +137,17 @@ sub shared_letters {
     return @letters;
 }
 
+=item shared_letters_by_position STRING1 STRING2
+
+In list context, returns a list that is the length of the larger of STRING1 and
+STRING2, which contains the character at that position in both strings if they
+are the same, and undef otherwise.
+
+In scalar context, returns the number of characters that are the same in both
+value and position between STRING1 and STRING2.
+
+=cut
+
 sub shared_letters_by_position {
     my @a = split //, shift;
     my @b = split //, shift;
@@ -101,6 +166,13 @@ sub shared_letters_by_position {
     return wantarray ? @letters : grep { defined } @letters;
 }
 
+=item random_string_from STRING LENGTH
+
+Uses STRING as an alphabet to generate a random string of length LENGTH.
+Characters in STRING may be repeated.
+
+=cut
+
 sub random_string_from {
     my ($letters, $length) = @_;
 
@@ -112,6 +184,14 @@ sub random_string_from {
     return $ret;
 }
 
+=item is_substring SUBSTRING STRING
+
+Returns true if SUBSTRING consists of only characters from STRING, in order.
+For example, 'word' is a substring of 'awobbrcd', but not of 'dcrbbowa' or
+'awbbrcd'.
+
+=cut
+
 sub is_substring {
     my ($substring, $string) = @_;
 
@@ -119,6 +199,13 @@ sub is_substring {
     my $re = join('?', map { quotemeta } split(//, $string)) . '?';
     return $substring =~ $re;
 }
+
+=item all_substrings STRING
+
+Returns a list of all substrings (see
+L<is_substring|/"is_substring SUBSTRING STRING">) of STRING.
+
+=cut
 
 sub all_substrings {
     my $string = shift;
@@ -138,6 +225,14 @@ sub all_substrings {
     return @substrings;
 }
 
+=item is_subpermutation SUBSTRING STRING
+
+Returns true if SUBSTRING is a subpermutation (like
+L<is_substring|/"is_substring SUBSTRING STRING">, but without caring about
+order) of STRING, and false otherwise.
+
+=cut
+
 sub is_subpermutation {
     my @subword = split //, shift;
     my @word = split //, shift;
@@ -145,34 +240,20 @@ sub is_subpermutation {
     return eq_deeply(\@subword, subbagof(@word));
 }
 
+=item all_subpermutations STRING
+
+Like L<all_substrings|/"all_substrings STRING">, except using
+L<is_subpermutation|/"is_subpermutation SUBSTRING STRING"> instead.
+
+=cut
+
 sub all_subpermutations {
     return map { all_permutations $_ } all_substrings shift;
 }
 
-=head1 NAME
-
-Games::Word - ???
-
-=head1 VERSION
-
-Version 0.01 released ???
-
-=cut
-
-our $VERSION = '0.01';
-
-=head1 SYNOPSIS
-
-    use Games::Word;
-    do_stuff();
-
-=head1 DESCRIPTION
-
-
-
 =head1 SEE ALSO
 
-L<Foo::Bar>
+L<Games::Word::Wordlist>
 
 =head1 AUTHOR
 

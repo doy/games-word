@@ -154,8 +154,8 @@ sub shared_letters_by_position {
 
     my @letters = ();
     while (my ($a, $b) = (shift @a, shift @b)) {
-        last unless (defined $a && defined $b);
-        if ($a eq $b) {
+        last unless (defined $a || defined $b);
+        if (defined $a && defined $b && $a eq $b) {
             push @letters, $a;
         }
         else {

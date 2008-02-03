@@ -1,7 +1,7 @@
 #!perl -T
 use strict;
 use warnings;
-use Test::More tests => 20;
+use Test::More tests => 21;
 use Test::Exception;
 use Games::Word::Wordlist;
 
@@ -20,4 +20,5 @@ SKIP: {
         ok($result,
            "checking to see if a random word from the word list is a word");
     }
+    ok(!$wl->is_word("notaword"), "testing is_word with a non-word");
 }

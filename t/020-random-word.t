@@ -1,7 +1,7 @@
 #!perl -T
 use strict;
 use warnings;
-use Test::More tests => 5;
+use Test::More tests => 6;
 use Games::Word::Wordlist;
 
 my $wl = Games::Word::Wordlist->new(['foo', 'bar', 'baz', 'quux']);
@@ -20,3 +20,7 @@ like($word, qr/^(foo|bar|baz)$/,
 
 is($wl->random_word(5), undef,
    "random_word returns undef if no words are found");
+
+my $wl2 = Games::Word::Wordlist->new([]);
+is($wl2->random_word, undef,
+   "random word returns undef with an empty word list");

@@ -245,6 +245,8 @@ sub is_subpermutation {
 Like L<all_substrings|/"all_substrings STRING">, except using
 L<is_subpermutation|/"is_subpermutation SUBSTRING STRING"> instead.
 
+=back
+
 =cut
 
 sub all_subpermutations {

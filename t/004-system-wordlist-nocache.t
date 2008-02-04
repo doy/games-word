@@ -10,7 +10,7 @@ $word_file = '/usr/dict/words' if -r '/usr/dict/words';
 $word_file = '/usr/share/dict/words' if -r '/usr/share/dict/words';
 
 SKIP: {
-    skip "Can't find a system word list", 2 if $word_file eq '';
+    skip "Can't find a system word list", 4 if $word_file eq '';
 
     my $wl;
     lives_ok { $wl = Games::Word::Wordlist->new($word_file, cache => 0) }

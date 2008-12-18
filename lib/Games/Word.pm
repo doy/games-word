@@ -198,7 +198,7 @@ sub is_substring {
     return 1 if $substring eq '';
     return 0 if $string eq '';
     my $re = join('?', map { quotemeta } split(//, $string)) . '?';
-    return $substring =~ $re;
+    return $substring =~ /^$re$/;
 }
 
 =item all_substrings STRING

@@ -29,6 +29,6 @@ SKIP: {
 
     is(length $word, 4, "testing random_word with a given length");
 
-    is($wl->random_word(35), undef,
+    is($wl->random_word(999), undef,
        "random_word returns undef if no words are found");
 }

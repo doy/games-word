@@ -196,6 +196,7 @@ sub is_substring {
     my ($substring, $string) = @_;
 
     return 1 if $substring eq '';
+    return 0 if $string eq '';
     my $re = join('?', map { quotemeta } split(//, $string)) . '?';
     return $substring =~ $re;
 }

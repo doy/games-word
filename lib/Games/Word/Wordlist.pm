@@ -11,11 +11,11 @@ Games::Word::Wordlist - manages a list of words
 
 =head1 VERSION
 
-Version 0.03 released 12/17/2008
+Version 0.04 released 12/18/2008
 
 =cut
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 =head1 SYNOPSIS
 

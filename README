@@ -1,8 +1,9 @@
-Games-Word 0.03
+Games-Word 0.04
 
 Games-Word is a module which provides tools to make writing word games easier. Games::Word provides several functions for manipulating strings and their substrings and permutations, and Games::Word::Wordlist provides an object oriented interface for manipulating a list of words.
 
 MAJOR CHANGES
+    0.04: fix bug in is_substring
     0.03: test fixes, spook solver
     0.02: doc and test fixes
     0.01: first version

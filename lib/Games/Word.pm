@@ -259,7 +259,7 @@ L<Games::Word::Wordlist>
 
 =head1 AUTHOR
 
-Jesse Luehrs, C<< <jluehrs2 at uiuc.edu> >>
+Jesse Luehrs, C<< <doy at tozt dot net> >>
 
 =head1 BUGS
 

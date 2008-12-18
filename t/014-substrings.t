@@ -12,6 +12,11 @@ my %is_substring_tests = (
     "aaba"  => ["a", "aa", "aaa", "aab", "aba"],
     "abcba" => ["aa", "bb", "c", "abc", "cba", "abba"],
 );
+my %isnt_substring_tests = (
+    ""      => ["a"],
+    "abc"   => ["z", "ba", "baz", "abz"],
+    "aaba"  => ["c", "abaa"],
+);
 my %all_substrings_tests = (
     ""    => [''],
     "a"   => ['', "a"],
@@ -19,11 +24,16 @@ my %all_substrings_tests = (
     "aab" => ['', "a", "a", "b", "aa", "ab", "ab", "aab"],
     "abc" => ['', "a", "b", "c", "ab", "ac", "bc", "abc"],
 );
-plan tests => (sum map { scalar @$_ } values %is_substring_tests) +
+plan tests => (sum map { scalar @$_ } values %is_substring_tests,
+                                      values %isnt_substring_tests) +
               keys %all_substrings_tests;
 
 while (my ($word, $substrings) = each %is_substring_tests) {
     ok(is_substring($_, $word), "is '$_' a substring of '$word'?")
+        for @$substrings;
+}
+while (my ($word, $substrings) = each %isnt_substring_tests) {
+    ok(!is_substring($_, $word), "is '$_' not a substring of '$word'?")
         for @$substrings;
 }
 while (my ($word, $substrings) = each %all_substrings_tests) {

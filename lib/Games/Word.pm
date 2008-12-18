@@ -19,11 +19,11 @@ Games::Word - utility functions for writing word games
 
 =head1 VERSION
 
-Version 0.02 released 02/04/08
+Version 0.03 released 12/17/08
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =head1 SYNOPSIS
 

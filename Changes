@@ -1,5 +1,7 @@
 Revision history for Games-Word
 
+0.05    Nov 16, 2009
+        A few minor cleanups, convert to Dist::Zilla
 0.04    Dec 18, 2008
         Fix is_substring
 0.03    Dec 17, 2008

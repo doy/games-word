@@ -15,14 +15,6 @@ use Test::Deep::NoTest;
 
 Games::Word - utility functions for writing word games
 
-=head1 VERSION
-
-Version 0.04 released 12/18/08
-
-=cut
-
-our $VERSION = '0.04';
-
 =head1 SYNOPSIS
 
     use Games::Word;

@@ -3,13 +3,13 @@ use strict;
 use warnings;
 use Test::More tests => 23;
 use Test::Deep;
+use Test::Exception;
 use Games::Word qw/random_string_from/;
 
 is(random_string_from("", 0), "",
    "0 length random_string_from an empty string");
-eval { random_string_from("", 5) };
-like($@, qr/invalid letter list/,
-     "random_string_from an empty string");
+throws_ok { random_string_from("", 5) } qr/invalid letter list/,
+   "random_string_from an empty string";
 is(random_string_from("abcde", 0), "",
    "0 length random_string_from");
 my @letters = qw/a b c d e/;

@@ -3,6 +3,8 @@ use strict;
 use warnings;
 use Test::More tests => 2;
 
-use_ok 'Games::Word';
-use_ok 'Games::Word::Wordlist';
+my @modules = qw(Games::Word Games::Word::Wordlist);
 
+for my $module (@modules) {
+    use_ok $module or BAIL_OUT("couldn't use $module");
+}

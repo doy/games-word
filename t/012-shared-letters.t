@@ -28,13 +28,11 @@ plan tests => 3 * @tests;
 
 for (@tests) {
     my %test = %$_;
-    my $sl = shared_letters($test{a}, $test{b});
-    my $slbp = shared_letters_by_position($test{a}, $test{b});
-    my @slbp_full = shared_letters_by_position($test{a}, $test{b});
-    is($sl, $test{sl},
-       "testing shared_letters: '$test{a}' vs '$test{b}'");
-    is($slbp, $test{slbp},
-       "testing shared_letters_by_position: '$test{a}' vs '$test{b}'");
-    is_deeply(\@slbp_full, $test{slbp_full},
-       "testing shared_letters_by_position (list): '$test{a}' vs '$test{b}'");
+    my ($a, $b) = ($test{a}, $test{b});
+    is(shared_letters($a, $b), $test{sl},
+       "testing shared_letters: '$a' vs '$b'");
+    is(shared_letters_by_position($a, $b), $test{slbp},
+       "testing shared_letters_by_position: '$a' vs '$b'");
+    is_deeply([shared_letters_by_position($a, $b)], $test{slbp_full},
+       "testing shared_letters_by_position (list): '$a' vs '$b'");
 }

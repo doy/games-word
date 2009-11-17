@@ -1,4 +1,3 @@
-#!perl
 package Games::Word::Wordlist;
 use strict;
 use warnings;
@@ -376,7 +375,7 @@ L<http://search.cpan.org/dist/Games-Word>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2008 Jesse Luehrs.
+Copyright 2008-2009 Jesse Luehrs.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
@@ -384,4 +383,3 @@ under the same terms as Perl itself.
 =cut
 
 1;
-

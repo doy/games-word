@@ -73,8 +73,8 @@ sub new {
     else {
         die "Can't read word list: $word_list" unless -r $word_list;
         if ($self->{cache} && -s $word_list) {
-            open my $fh, $word_list or die "Opening $word_list failed";
-            for (<$fh>) {
+            open my $fh, '<', $word_list or die "Opening $word_list failed";
+            while (<$fh>) {
                 chomp;
                 $self->{word_hash}{$_} = 1;
             }
@@ -145,7 +145,7 @@ sub words {
 
     return @{$self->{word_list}} if $self->{cache};
     open my $fh, '<', $self->{file} or die "Opening $self->{file} failed";
-    for (<$fh>) {}
+    while (<$fh>) {}
 
     return $.;
 }

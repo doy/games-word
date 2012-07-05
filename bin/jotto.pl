@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use Games::Word qw/shared_letters/;
 use Games::Word::Wordlist;
+# PODNAME: jotto.pl
 
 my $wl = Games::Word::Wordlist->new('/usr/share/dict/words');
 $wl->remove_words($wl->words_like(qr/^(.{0,4}|.{6,})$/));

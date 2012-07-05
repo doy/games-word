@@ -3,10 +3,7 @@ use strict;
 use warnings;
 use Games::Word qw/all_permutations all_subpermutations/;
 use List::MoreUtils qw/uniq/;
-
-=head1 NAME
-
-Games::Word::Wordlist - manages a list of words
+# ABSTRACT: manages a list of words
 
 =head1 SYNOPSIS
 
@@ -25,11 +22,7 @@ randomly or by regex.
 
 =cut
 
-=head1 CONSTRUCTOR
-
-=over 4
-
-=item new <FILENAME|ARRAYREF> PARAMHASH
+=method new <FILENAME|ARRAYREF> PARAMHASH
 
 The constructor initializes the word list with words, either from a file or
 from an arrayref, given as the first argument. The remaining arguments are a
@@ -45,8 +38,6 @@ speeds up lookups by several orders of magnitude. Can be set to false if either
 memory is a significant issue (word lists can be several megabytes in size) or
 if the word list is expected to change frequently during the running of the
 program.
-
-=back
 
 =back
 
@@ -86,11 +77,7 @@ sub new {
     return $self;
 }
 
-=head1 METHODS
-
-=over 4
-
-=item add_words <FILENAME|ARRAYREF>
+=method add_words <FILENAME|ARRAYREF>
 
 Add words to the word list. Only works if the word list has been cached.
 
@@ -117,7 +104,7 @@ sub add_words {
     return;
 }
 
-=item remove_words LIST
+=method remove_words LIST
 
 Removes words in LIST from the word list. Only works if the word list is cached.
 
@@ -134,7 +121,7 @@ sub remove_words {
     return;
 }
 
-=item words
+=method words
 
 Returns the number of words in the word list.
 
@@ -186,7 +173,7 @@ sub _random_word_nocache {
     return $word;
 }
 
-=item random_word [LENGTH]
+=method random_word [LENGTH]
 
 Returns a random word from the word list, optionally of length LENGTH.
 
@@ -219,7 +206,7 @@ sub _is_word_nocache {
     return 0;
 }
 
-=item is_word STRING
+=method is_word STRING
 
 Returns true if STRING is found in the word list, and false otherwise.
 
@@ -254,7 +241,7 @@ sub _each_word_nocache {
     return;
 }
 
-=item each_word CODE
+=method each_word CODE
 
 Call CODE for each word in the word list. The current word will be passed into
 CODE as its only argument.
@@ -268,7 +255,7 @@ sub each_word {
     return $self->_each_word_nocache(@_);
 }
 
-=item anagrams STRING
+=method anagrams STRING
 
 Returns a list of all permutations of STRING that are found in the word list.
 
@@ -281,7 +268,7 @@ sub anagrams {
     return grep {$self->is_word($_)} all_permutations($word);
 }
 
-=item words_like REGEX
+=method words_like REGEX
 
 Returns a list containing all words in the word list which match REGEX.
 
@@ -297,7 +284,7 @@ sub words_like {
     return @words;
 }
 
-=item subwords_of STRING
+=method subwords_of STRING
 
 Returns a list of words from the word list which can be made using the letters
 in STRING.
@@ -311,58 +298,9 @@ sub subwords_of {
     return grep {$self->is_word($_)} all_subpermutations($string);
 }
 
-=back
-
 =head1 SEE ALSO
 
 L<Games::Word>
-
-=head1 AUTHOR
-
-Jesse Luehrs, C<< <doy at tozt dot net> >>
-
-=head1 BUGS
-
-No known bugs.
-
-Please report any bugs through RT: email
-C<bug-games-word at rt.cpan.org>, or browse
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Games-Word>.
-
-=head1 SUPPORT
-
-You can find this documentation for this module with the perldoc command.
-
-    perldoc Games::Word::Wordlist
-
-You can also look for information at:
-
-=over 4
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/Games-Word>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/Games-Word>
-
-=item * RT: CPAN's request tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Games-Word>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/Games-Word>
-
-=back
-
-=head1 COPYRIGHT AND LICENSE
-
-Copyright 2008-2009 Jesse Luehrs.
-
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
 
 =cut
 

@@ -2,6 +2,7 @@
 use strict;
 use warnings;
 use Games::Word qw/random_permutation/;
+# PODNAME: cryptogram.pl
 
 my $alphabet = 'abcdefghijklmnopqrstuvwxyz';
 my $key = random_permutation $alphabet;

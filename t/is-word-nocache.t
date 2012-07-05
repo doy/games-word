@@ -1,8 +1,8 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 11;
-use Test::Exception;
+use Test::More;
+
 use Games::Word::Wordlist;
 
 my $word_file = '';
@@ -19,3 +19,5 @@ SKIP: {
     }
     ok(!$wl->is_word("notaword"), "testing is_word with a non-word");
 }
+
+done_testing;

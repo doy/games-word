@@ -1,7 +1,8 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 1;
+use Test::More;
+
 use Games::Word::Wordlist;
 
 my $word_file = '';
@@ -16,3 +17,5 @@ SKIP: {
     for (<$fh>) {}
     is($wl->words, $., "we read in the correct number of words");
 }
+
+done_testing;

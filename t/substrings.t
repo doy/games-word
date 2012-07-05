@@ -2,9 +2,8 @@
 use strict;
 use warnings;
 use Test::More;
-use Test::Deep;
-use List::Util qw/sum/;
-use Games::Word qw/is_substring all_substrings/;
+
+use Games::Word qw(is_substring all_substrings);
 
 my %is_substring_tests = (
     ""      => [""],
@@ -24,19 +23,21 @@ my %all_substrings_tests = (
     "aab" => ['', "a", "a", "b", "aa", "ab", "ab", "aab"],
     "abc" => ['', "a", "b", "c", "ab", "ac", "bc", "abc"],
 );
-plan tests => (sum map { scalar @$_ } values %is_substring_tests,
-                                      values %isnt_substring_tests) +
-              keys %all_substrings_tests;
 
-while (my ($word, $substrings) = each %is_substring_tests) {
+for my $word (keys %is_substring_tests) {
     ok(is_substring($_, $word), "is '$_' a substring of '$word'?")
-        for @$substrings;
+        for @{ $is_substring_tests{$word} };
 }
-while (my ($word, $substrings) = each %isnt_substring_tests) {
+for my $word (keys %isnt_substring_tests) {
     ok(!is_substring($_, $word), "is '$_' not a substring of '$word'?")
-        for @$substrings;
+        for @{ $isnt_substring_tests{$word} };
 }
-while (my ($word, $substrings) = each %all_substrings_tests) {
-    cmp_deeply([all_substrings($word)], bag(@$substrings),
-               "do we get all of the substrings of '$word'?");
+for my $word (keys %all_substrings_tests) {
+    is_deeply(
+        [sort(all_substrings($word))],
+        [sort(@{ $all_substrings_tests{$word} })],
+        "do we get all of the substrings of '$word'?"
+    );
 }
+
+done_testing;

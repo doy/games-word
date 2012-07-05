@@ -1,14 +1,16 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 1;
-use Test::Deep;
+use Test::More;
+
 use Games::Word::Wordlist;
 
 my @words = qw/stop spot tops post posts stops spartan poster pot sop spa/;
 
 my $wl = Games::Word::Wordlist->new(\@words);
-my @anagrams = $wl->anagrams("stop");
+my @subwords = $wl->subwords_of("stop");
 
-cmp_deeply(\@anagrams, bag('stop', 'spot', 'tops', 'post'),
-            "anagrams returns the correct words");
+is_deeply([sort @subwords], [qw(post pot sop spot stop tops)],
+          "subwords_of returns the correct words");
+
+done_testing;

@@ -1,7 +1,8 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 6;
+use Test::More;
+
 use Games::Word::Wordlist;
 
 my $wl = Games::Word::Wordlist->new(['foo', 'bar', 'baz', 'quux']);
@@ -24,3 +25,5 @@ is($wl->random_word(5), undef,
 my $wl2 = Games::Word::Wordlist->new([]);
 is($wl2->random_word, undef,
    "random word returns undef with an empty word list");
+
+done_testing;

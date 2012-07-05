@@ -2,7 +2,8 @@
 use strict;
 use warnings;
 use Test::More;
-use Games::Word qw/shared_letters shared_letters_by_position/;
+
+use Games::Word qw(shared_letters shared_letters_by_position);
 
 my @tests = (
     {a => "abcde", b => "edcba", sl => 5, slbp => 1,
@@ -24,7 +25,6 @@ my @tests = (
     {a => "bacaa", b => "gabca", sl => 4, slbp => 2,
      slbp_full => [undef, 'a', undef, undef, 'a']},
 );
-plan tests => 3 * @tests;
 
 for (@tests) {
     my %test = %$_;
@@ -36,3 +36,5 @@ for (@tests) {
     is_deeply([shared_letters_by_position($a, $b)], $test{slbp_full},
        "testing shared_letters_by_position (list): '$a' vs '$b'");
 }
+
+done_testing;

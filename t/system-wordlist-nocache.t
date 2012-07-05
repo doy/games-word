@@ -1,8 +1,9 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 3;
-use Test::Exception;
+use Test::More;
+use Test::Fatal;
+
 use Games::Word::Wordlist;
 
 my $word_file = '';
@@ -17,10 +18,16 @@ SKIP: {
     for (<$fh>) {}
     is($wl->words, $., "we read in the correct number of words");
 
-    throws_ok { $wl->add_words([qw/foo bar baz/]) }
-              qr/Can't add words to a non-cached word list/,
-              "adding words dies";
-    throws_ok { $wl->remove_words("word", "throw") }
-              qr/Can't remove words from a non-cached word list/,
-              "removing words dies";
+    like(
+        exception { $wl->add_words([qw/foo bar baz/]) },
+        qr/Can't add words to a non-cached word list/,
+        "adding words dies"
+    );
+    like(
+        exception { $wl->remove_words("word", "throw") },
+        qr/Can't remove words from a non-cached word list/,
+        "removing words dies"
+    );
 }
+
+done_testing;

@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use Games::Word qw/random_string_from shared_letters
                    shared_letters_by_position/;
+# PODNAME: mastermind.pl
 
 my $word = random_string_from "abcdefg", 5;
 while (1) {

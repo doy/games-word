@@ -1,8 +1,8 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 4;
-use Test::Exception;
+use Test::More;
+
 use Games::Word::Wordlist;
 
 my $word_file = '';
@@ -30,3 +30,5 @@ SKIP: {
     is($wl->random_word(999), undef,
        "random_word returns undef if no words are found");
 }
+
+done_testing;

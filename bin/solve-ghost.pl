@@ -2,6 +2,7 @@
 use strict;
 use warnings;
 use Games::Word::Wordlist;
+# PODNAME: solve-ghost.pl
 
 die "Usage: $0 <word_prefix>\n" unless @ARGV;
 my $wl = Games::Word::Wordlist->new('/usr/share/dict/words');

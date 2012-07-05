@@ -1,7 +1,7 @@
 package Games::Word::Wordlist;
 use strict;
 use warnings;
-use Games::Word qw/is_permutation all_permutations is_subpermutation/;
+use Games::Word qw/all_permutations all_subpermutations/;
 use List::MoreUtils qw/uniq/;
 
 =head1 NAME
@@ -278,11 +278,7 @@ sub anagrams {
     my $self = shift;
     my $word = shift;
 
-    my @words = ();
-    $self->each_word(sub { push @words, $_[0]
-                                if is_permutation($word, $_[0]) });
-
-    return @words;
+    return grep {$self->is_word($_)} all_permutations($word);
 }
 
 =item words_like REGEX
@@ -312,11 +308,7 @@ sub subwords_of {
     my $self = shift;
     my $string = shift;
 
-    my @words = ();
-    $self->each_word(sub { push @words, $_[0]
-                                if is_subpermutation($_[0], $string)});
-
-    return @words;
+    return grep {$self->is_word($_)} all_subpermutations($string);
 }
 
 =back

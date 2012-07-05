@@ -1,6 +1,8 @@
 Revision history for Games-Word
 
 {{$NEXT}}
+
+0.06  2012-07-05
       - make anagrams and subwords_of faster (srollyson)
       - fix jotto when the word list has non-word characters in it
       - cleanups, etc

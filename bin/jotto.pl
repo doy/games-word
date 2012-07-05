@@ -5,8 +5,8 @@ use Games::Word qw/shared_letters/;
 use Games::Word::Wordlist;
 
 my $wl = Games::Word::Wordlist->new('/usr/share/dict/words');
-$wl->remove_words($wl->words_like(qr/^(\w{0,4}|\w{6,})$/));
-$wl->remove_words($wl->words_like(qr/^[A-Z]/));
+$wl->remove_words($wl->words_like(qr/^(.{0,4}|.{6,})$/));
+$wl->remove_words($wl->words_like(qr/[^a-z]/));
 my $word = $wl->random_word;
 my $guesses = 0;
 while (1) {

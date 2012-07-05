@@ -1,6 +1,9 @@
 Revision history for Games-Word
 
 {{$NEXT}}
+      - make anagrams and subwords_of faster (srollyson)
+      - fix jotto when the word list has non-word characters in it
+      - cleanups, etc
 
 0.05  2009-11-16
       - A few minor cleanups, convert to Dist::Zilla
